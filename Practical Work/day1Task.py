@@ -53,7 +53,7 @@ while True:
     if not validatePassword(password):
         print("Wrong password, must be at least 8 characters and 1 digit")
         continue
-    if not age>=18:
+    if not intage>=18:
         print("You are not mature enough for account registration")
         continue
     if checkStrongPassword(password):
