@@ -27,7 +27,6 @@ def validateUsername(name):
 
 def validatePassword(password):
     return len(password)>=8 and any(char.isdigit() for char in password)
-
 # optional function for validation strong password
 def checkStrongPassword(password):
     if (len(password)>=8 and
@@ -38,6 +37,7 @@ def checkStrongPassword(password):
         print('Password is Strong')
     else: 
         print('Password is week')
+        
 while True:
     username=input("Enter your username at least 5 characters: ")
     password=input("Enter your password at least 8 characters and 1 digit: ")
