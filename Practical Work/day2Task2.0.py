@@ -35,41 +35,35 @@ Scenario: You’re building the backend logic for a school's internal grading to
 --use lambda function only where it makes sense
 ->now this is little advance python enjoy it
 """
-def validate_num(n):
-    return n.isdigit()
+def validate_number(value):
+    return value.replace('.', '', 1).isdigit()
 
-def add_student(std_dic):
-    mark=[]
-    while(True):
-        name=input('Enter you name: ').strip()
-        if name.isalpha():
-            break
-        print('Name must contain only alphabets!')
-            
+def add_student(students):
+    name = input("Enter student name: ").strip()
 
-    if name in std_dic:
-        choice=input('Name exist, press "y" to update them or "n" to cancel:')
-        if choice.lower()!='y':
-            print('Operation cancelled')
-            return std_dic
-        
+    if not name.isalpha():
+        print("Name must contain only alphabets")
+        return students
 
+    if name in students:
+        choice = input("Student exists. Update marks? (y/n): ")
+        if choice.lower() != 'y':
+            return students
+
+    marks = []
     for i in range(3):
-        while(True):
-            m=input(f"Enter your marks in subject {i+1}:")
-            if validate_num(m):
-                mark.append(int(m))
+        while True:
+            m = input(f"Enter marks for subject {i+1}: ")
+            if validate_number(m):
+                marks.append(float(m))
                 break
-            print('Invalid number, Enter numeric number!')
+            print("Invalid marks")
 
-    std_dic[name]=mark
-    print('Student data entered successfully!!')
-    return std_dic
+    students[name] = marks
+    return students
 
-def calculate_average(marks_list):
-    average=sum(marks_list)/len(marks_list)
-    return average
-
+def calculate_average(marks):
+    return sum(marks) / len(marks)
 """
 Another way to calculate avg if you want to become data analyst and learning NumPy
  def calculate_averages(marks_list):
@@ -77,7 +71,8 @@ Another way to calculate avg if you want to become data analyst and learning Num
      average=np.mean(arr)
      return average
 """
-
+"""
+my logic
 def get_topper(std_dic):
     avg=[]
     name=[]
@@ -88,10 +83,7 @@ def get_topper(std_dic):
     max_avg=max(avg)
     max_avg_index=avg.index(max_avg)
     print(f"{name[max_avg_index]} is a topper with {max_avg} average marks")
-
-
-
-
+"""
 """
 Chatgpt style :) below and yes more advance style to write function not tradional
 def get_topper(std_dic):
@@ -100,17 +92,29 @@ def get_topper(std_dic):
     print(f"{topper} is a topper with {avg} average marks")
 """
 
-def get_falied(std_dic):
+def get_topper(students):
+    topper = max(students, key=lambda s: calculate_average(students[s]))
+    return topper, calculate_average(students[topper])
+"""
+my logic
+def get_failed(std_dic):
     avg=[]
     name=[]
-    for k,v in std_dic.item():
+    for k,v in std_dic.items():
         name.append(k)
         avg.append(calculate_average(v))
     for i in range(len(avg)):
         if avg[i]<50:
-            print(f'name[i] failed with {avg[i]} average marks')
+            return(f'{name[i]} failed with {avg[i]} average marks')
+"""
 
-
+def get_failed_students(students):
+    return [
+        name for name, marks in students.items()
+        if calculate_average(marks) < 50
+    ]
+"""
+my logic
 def main():
     std_dic={'Ali':[78,85,90],'Sara':[88,92,79]}
     while True:
@@ -133,8 +137,42 @@ def main():
             get_topper(std_dic)
             continue
         elif choice==3:
-            get_falied(std_dic)
+            print(get_failed(std_dic))
             continue
+        else:
+            break
+
+"""            
+
+def main():
+    students = {
+        "Ali": [78, 85, 90],
+        "Sara": [88, 92, 79]
+    }
+
+    while True:
+        choice = input(
+            "\n1. Add Student"
+            "\n2. Show Topper"
+            "\n3. Show Failed Students"
+            "\n4. Exit"
+            "\nChoice: "
+        )
+
+        if choice == '1':
+            students = add_student(students)
+
+        elif choice == '2':
+            name, avg = get_topper(students)
+            print(f"Topper: {name} with average {avg:.2f}")
+
+        elif choice == '3':
+            failed = get_failed_students(students)
+            if failed:
+                print("Failed students:", ", ".join(failed))
+            else:
+                print("No failed students")
+
         else:
             break
 
