@@ -1,0 +1,118 @@
+Thinking Practice for this problem 3.0
+Bank Transaction Analyzer
+
+Step 0 — Forget Python for a moment
+
+An AI engineer does not start with code.
+They start with data + behavior + constraints.
+
+Ask yourself:
+
+❓ What data exists?
+❓ How does data change over time?
+❓ What questions do we want the system to answer?
+
+1-> Data Thinking
+Primary dataset
+
+Think of transactions as raw data (like logs, training data, or event streams):
+transactions = [
+    {"type": "deposit", "amount": 5000},
+    {"type": "withdraw", "amount": 1200}
+]
+
+This is:
+-unstructured behavior data
+-grows over time
+-never overwritten (append-only)
+
+2-> DATA VALIDATION (Data Quality First)
+AI engineers know:
+			Bad data = bad models = bad systems
+So before any logic, ask:
+
+-Is transaction type valid?
+-Is amount numeric?
+-Is amount positive?
+-Can withdrawals exceed balance?
+➡ That’s why validate_amount() exists
+➡ That’s why add_transaction() must reject invalid input
+
+3-> FEATURE ENGINEERING MINDSET
+
+Now think like this:
+	-Transactions are RAW DATA
+	-Balance, totals, summaries are FEATURES
+
+| Feature            | How it's derived       	|
+| ------------------ | ----------------------	|
+| Balance            | deposits − withdrawals	|
+| Total deposits     | sum of deposits        	|
+| Total withdrawals  | sum of withdrawals     	|
+| Large transactions | filtered subset        	|
+
+These are computed, not stored.
+
+4-> FUNCTION DESIGN
+AI engineers design pure functions:
+	Same input → same output
+	No side effects
+So:
+	calculate_balance(transactions)
+✔takes data
+✔ returns value
+❌ does not print
+❌ does not modify transactions
+
+This makes it:
+	-testable
+	-reusable
+	-pipeline-friendly
+5-> LAMBDA = DATA TRANSFORMATION TOOL
+AI engineers don’t use lambda to be fancy.
+
+They use it because:
+
+	-filtering
+	-mapping
+	-ranking
+	-aggregation
+Examples in this problem::
+-Filter large transactions
+-Find max transaction
+-Separate deposits vs withdrawals
+
+If lambda doesn’t reduce code or clarify logic, don’t use it.
+
+6-> SYSTEM QUESTIONS (Think like this while coding)
+While writing each function, ask:
+
+--Can this logic scale to 1M transactions?
+--Am I mutating data or transforming data?
+--Can I reuse this logic for analytics later?
+--Is this function answering one question only?
+
+7-> SAME REQUIREMENTS:::
+You must still implement:
+Functions
+	--validate_amount(value)
+	--add_transaction(transactions)
+	--calculate_balance(transactions)
+	--get_transaction_summary(transactions)
+	--get_large_transactions(transactions, threshold)
+
+Brain Storming before coding important for AI learner::
+
+What is my source data?
+What are my derived features?
+Which functions transform data?
+Which functions validate data?
+Which functions present data?
+
+
+
+
+
+
+
+
