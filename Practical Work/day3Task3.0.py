@@ -90,4 +90,5 @@ transactions = [
 
 
 def add_transaction(trans):
-    
+    t_type=input("Enter transaction type: ")
+    t_amt=input("Enter transaction amount: ")
