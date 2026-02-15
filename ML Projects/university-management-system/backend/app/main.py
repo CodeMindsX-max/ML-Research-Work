@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from app.database.db import engine, Base
-from app.models import student
+from app.models import Student, Instructor, Subject, Enrollment
 from app.routes.student_routes import router as student_router
 
 load_dotenv()
