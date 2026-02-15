@@ -3,6 +3,9 @@ from sqlalchemy.orm import Session
 from app.database.db import get_db
 from app.models import Student
 from app.schemas.student_schema import StudentCreate, StudentResponse
+from app.security import get_current_user
+
+
 
 router = APIRouter(prefix="/students", tags=["Students"])
 
@@ -22,5 +25,8 @@ def create_student(student: StudentCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=list[StudentResponse])
-def get_all_students(db: Session = Depends(get_db)):
+def get_all_students(
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user)
+):
     return db.query(Student).all()
