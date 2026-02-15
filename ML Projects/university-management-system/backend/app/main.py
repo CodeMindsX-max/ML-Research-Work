@@ -8,7 +8,8 @@ from app.routes.instructor_routes import router as instructor_router
 from app.routes.subject_routes import router as subject_router
 from app.routes.enrollment_routes import router as enrollment_router
 from app.routes.academic_routes import router as academic_router
-
+from app.models.user_model import User
+from app.routes import auth_routes
 
 
 
@@ -24,7 +25,7 @@ app.include_router(instructor_router)
 app.include_router(subject_router)
 app.include_router(enrollment_router)
 app.include_router(academic_router)
-
+app.include_router(auth_routes.router)
 
 
 @app.get("/")
