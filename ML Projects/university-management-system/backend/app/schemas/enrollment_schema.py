@@ -7,6 +7,7 @@ class EnrollmentBase(BaseModel):
     subject_id: int
     semester: int
     grade: Optional[str] = None
+    status: Optional[str] = None
 
 
 class EnrollmentCreate(EnrollmentBase):
@@ -18,3 +19,9 @@ class EnrollmentResponse(EnrollmentBase):
 
     class Config:
         from_attributes = True
+
+
+class EnrollmentUpdate(BaseModel):
+    grade: Optional[str] = None
+    status: Optional[str] = None
+
