@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from app.database.db import Base
 from sqlalchemy.orm import relationship
 
@@ -11,7 +11,11 @@ class Student(Base):
     email = Column(String, unique=True, index=True, nullable=False)
     department = Column(String, nullable=False)
     admission_year = Column(Integer, nullable=False)
+    enrollments = relationship("Enrollment", back_populates="student")
 
+
+    def __repr__(self):
+        return f"<Student {self.name}>"
 
 class Instructor(Base):
     __tablename__ = "instructors"
@@ -40,15 +44,28 @@ class Enrollment(Base):
     __tablename__ = "enrollments"
 
     id = Column(Integer, primary_key=True, index=True)
+
     student_id = Column(Integer, ForeignKey("students.id"))
     subject_id = Column(Integer, ForeignKey("subjects.id"))
-    semester = Column(Integer)
-    grade = Column(String)
 
-    student = relationship("Student")
+    semester = Column(Integer)
+
+    # Examination System
+    mid_marks = Column(Float, default=0)
+    final_marks = Column(Float, default=0)
+    internal_marks = Column(Float, default=0)
+
+    total_marks = Column(Float, default=0)
+    grade = Column(String)
+    grade_points = Column(Float)
+
+    status = Column(String, default="active")  # active, completed, dropped
+
+    student = relationship("Student", back_populates="enrollments")
     subject = relationship("Subject", back_populates="enrollments")
 
-
-
     def __repr__(self):
-        return f"<Student {self.name}>"
+        return f"<Enrollment student_id={self.student_id} subject_id={self.subject_id}>"
+
+
+

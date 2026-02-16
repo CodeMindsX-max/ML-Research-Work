@@ -6,8 +6,15 @@ class EnrollmentBase(BaseModel):
     student_id: int
     subject_id: int
     semester: int
+
+    mid_marks: Optional[float] = 0
+    final_marks: Optional[float] = 0
+    internal_marks: Optional[float] = 0
+
     grade: Optional[str] = None
-    status: Optional[str] = None
+    grade_points: Optional[float] = None
+    status: Optional[str] = "active"
+
 
 
 class EnrollmentCreate(EnrollmentBase):
@@ -22,6 +29,8 @@ class EnrollmentResponse(EnrollmentBase):
 
 
 class EnrollmentUpdate(BaseModel):
-    grade: Optional[str] = None
+    mid_marks: Optional[float] = None
+    final_marks: Optional[float] = None
+    internal_marks: Optional[float] = None
     status: Optional[str] = None
 
